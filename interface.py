@@ -2,7 +2,7 @@ from socket import *
 from _thread import *
 import customtkinter
 import socket
-
+from CRSA import RSA
 
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
@@ -12,10 +12,13 @@ class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.RSA = RSA()
+        
 
 # Connect to the server
         self.server_address = ('localhost', 5555)
         self.client_socket.connect(self.server_address)
+        self.client_socket.send(str(self.RSA.e).encode())
         # configure window
         self.title("Message Me")
         self.geometry(f"{1100}x{580}")

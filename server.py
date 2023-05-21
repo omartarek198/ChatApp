@@ -17,7 +17,7 @@ def handle_client(client_socket, client_address):
     # Save the public key in the dictionary with the client's port as the key
     client_port = client_address[1]
     client_public_keys[client_port] = public_key
-    print("Received public key from client {}:{}".format(*client_address))
+    print("Received public key from client {}:{} :-{}-".format(*client_address,public_key))
 
     while True:
         # Receive and print the client's message

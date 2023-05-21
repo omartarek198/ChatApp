@@ -1,7 +1,7 @@
 import random
 
 class RSA:
-    def __init__(self,msg) -> None:
+    def __init__(self) -> None:
             self.d = 0
             self.e = 0
             self.N =0
@@ -30,16 +30,32 @@ class RSA:
 
         # choose e
         # e is coprime with phiN & 1 < e <= phiN
-        for i in range(2,phiN):
-            if self.gcd(i,phiN) == 1:
-                e = i
+        print(phiN)
+        dp = {}
+        # self.gcd(e, phiN) != 1
+        while True :
+            e = random.randint(2, phiN)  # Generate a random value between 2 and phiN
+            if e in dp:
+                continue
+            if self.gcd(e, phiN) == 1:
                 break
+            dp[e] = -1
+                
+        print (e)
+                        
+                        
+                
 
         # e * d (mod phiN) = 1
         d = self.modularInv(e, phiN)
+        print (e)
         self.e = e
         self.d = d
         self.N = N
+        
+        print(f"e: {e}")
+        print(f"d: {d}")
+        print(f"N: {N}")
     def isPrime(self,n):
         """
             return True if n prime
@@ -142,7 +158,7 @@ class RSA:
     
 def main():
     msg = "123omar456"
-    test = RSA(msg)
+    test = RSA()
     enc = test.encrypt(test.e, test.N, msg)
     dec = test.decrypt(test.d, test.N, enc)
     print(f"Message: {msg}")
