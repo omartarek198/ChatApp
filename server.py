@@ -4,13 +4,17 @@ import threading
 def handle_client(client_socket, client_address):
     print("Connected to client:", client_address)
 
-    # Receive and print the client's message
-    message = client_socket.recv(1024).decode()
-    print("Received message from client:", message)
+    while True:
+        # Receive and print the client's message
+        message = client_socket.recv(1024).decode()
+        if not message:
+            break  # Exit the loop if no more messages
 
-    # Send a response back to the client
-    response = "Server says: Hello, client!"
-    client_socket.send(response.encode())
+        print("Received message from client:", message)
+
+        # Send a response back to the client
+        response = "Server says: Hello, client!"
+        client_socket.send(response.encode())
 
     # Close the client connection
     client_socket.close()
