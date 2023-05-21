@@ -1,8 +1,23 @@
 import socket
 import threading
 
+# Dictionary to store client public keys
+client_public_keys = {}
+
 def handle_client(client_socket, client_address):
     print("Connected to client:", client_address)
+
+    # Receive the client's public key
+    public_key = client_socket.recv(1024).decode()
+    if not public_key:
+        print("No public key received from client:", client_address)
+        client_socket.close()
+        return
+
+    # Save the public key in the dictionary with the client's port as the key
+    client_port = client_address[1]
+    client_public_keys[client_port] = public_key
+    print("Received public key from client {}:{}".format(*client_address))
 
     while True:
         # Receive and print the client's message
