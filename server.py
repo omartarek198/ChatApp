@@ -56,9 +56,9 @@ def handle_client(client_socket, client_address):
                 del client_public_keys[client_port]
         
                 break
-         """
-          here  we try to generate common q, a to send to both sides of gammmal and wait for their public keys
-            """
+        """
+        here  we try to generate common q, a to send to both sides of gammmal and wait for their public keys
+        """
             # elif message == "Get_q_a":
             #     keys = q + "," + a + "," + k
             #     client_socket.send(keys.encode())
