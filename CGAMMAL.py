@@ -2,15 +2,28 @@ import random
 from math import pow
 
 class elgammal():
-    def __init__(self):
-        self.privateK = 5
+    def __init__(self, q, a, k):
+        self.kS = k
+        self.privateK = self.privateKeyGeneration(q)
+        self.publicK = self.publicKeyGeneration(a, q)
 
     def set_key(self, key):
         self.EncryptionKey = key
     
-    def PrivateKeyGeneration(q):
+    def privateKeyGeneration(q):
         privateK = random.randint(1, q)
         return privateK
+    
+    def publicKeyGeneration(self, a, q):
+        publicK = self.Square_Multiply(a, self.privateK, q)    
+        return publicK
+    
+    def KInverse(self, KC, q):
+        KC = KC % q
+        for i in range(1, q):
+            if (KC * i) % q == 1:
+                return i
+        return 1
     
     def Square_Multiply(self,First, power, q):
         results = []
@@ -50,16 +63,8 @@ class elgammal():
 
         return publicK
     
-    def publicKeyGeneration(self, a, q):
-        publicK = self.Square_Multiply(a, self.privateK, q)    
-        return publicK
     
-    def KInverse(self, KC, q):
-        KC = KC % q
-        for i in range(1, q):
-            if (KC * i) % q == 1:
-                return i
-        return 1
+    
     
     def Decrypt(self, C1, C2, q):
         KC = self.Square_Multiply(C1, self.privateK, q)
@@ -73,13 +78,11 @@ class elgammal():
             
         return decryptedM
     
-    def Encrypt(self, q, a, publicK, M):
+     def Encrypt(self, q, a, publicK, M):
         
-        kS = 6
-        KC = self.Square_Multiply(self.EncryptionKey, kS, q)
-        print(KC)
-        C1 = self.Square_Multiply(a, kS, q)
-        print(C1)
+       
+        KC = self.Square_Multiply(self.EncryptionKey, self.kS, q)
+        C1 = self.Square_Multiply(a, self.kS, q)
 
         C2 = []
 
@@ -92,33 +95,21 @@ class elgammal():
 def main(): 
     a = 10
     q = 19
+    k=6
     M = 'alaa'
-    #MESSAGE ENCRYPTION AND DECRYPTION
-    MT = []
-    for i in range(0, len(M)):
-        MT.append(ord(M[i]))
 
-    print(MT)
-
-    RecieverP = elgammal()
-    RPublicKey = RecieverP.publicKeyGeneration(a,q)
-    print(RPublicKey)
-    SenderP = elgammal()
-    SenderP.set_key(RPublicKey)
-    C1, C2 = SenderP.Encrypt(q, a, RPublicKey, M)
-    print(C2)
+    RecieverP = elgammal(a,k, q)
+    SenderP = elgammal(a, k,q)
+    SenderP.set_key(RecieverP.publicK)
+    C1, C2 = SenderP.Encrypt(q, a, SenderP.EncryptionKey, M)
     #C1, C2, q
-    C2T = []
-    for i in range(0, len(C2)):
-        C2T.append(chr(C2[i]))
-
-    print(C2T)
+   
 
     DM = RecieverP.Decrypt(C1, C2, q)
-    print(DM)
     for i in range(0, len(DM)):
         DM[i] = chr(DM[i])
     print('Decrypted Message:', DM)
+
 
 if __name__ == "__main__":
     main()
