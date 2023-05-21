@@ -3,6 +3,7 @@ from _thread import *
 import customtkinter
 import socket
 from CRSA import RSA
+from CGAMMAL import elgammal
 
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
@@ -69,7 +70,9 @@ class App(customtkinter.CTk):
         start_new_thread(self.receive_messages_thread, ())
 
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.RSA = RSA()
+        # self.elgammal = elgammal(0,0)
+
+        # self.RSA = RSA()
         
         
 
@@ -78,17 +81,37 @@ class App(customtkinter.CTk):
         self.client_socket.connect(self.server_address)
         self.client_socket.send(str(self.RSA.e).encode())
         response = self.client_socket.recv(1024).decode()
-        self.client_socket.send("Get_Keys".encode()) 
+        self.client_socket.send("Get_Keys".encode())
         response = self.client_socket.recv(1024).decode()
         keys = response.split('\n')
         for key in keys:
-            print("Received key:", key)
-
+             print("Received key:", key)
+ 
+ 
+ 
         for i in keys:
             if i != self.RSA.e:
                 self.RSA.e = int(i)
                 break
+        """
+        we hopefully agree on a (q, a, kSmall) combo in server side and send to both sides then share public keys that can be generated after obtaining q, a, k
+        """
+        # self.client_socket.send("Get_q_a".encode())
+        # response = self.client_socket.recv(1024).decode()
+        # keys = response.split(',')
+        # self.elgammal = elgammal(keys[0], keys[1])
+        # self.elgammal.set_kSmall(keys[2])
+        # self.client_socket.send(str(self.elgammal.publicKey).encode())
 
+
+
+        """
+        if this algo was receiveing then, it should already have (q, a, k) from server side and obtain public key from algo to send 
+        """
+        
+        
+        
+        
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)  
@@ -100,7 +123,12 @@ class App(customtkinter.CTk):
     def send_button_event(self):
         message =self.entry.get()
         enc = RSA.encrypt(self.RSA,e=self.RSA.e,N=self.RSA.N,msg=message)
-        
+        #c1, c2 = self.elgammal.Encrypt(othergammalkey, message)
+
+        """
+        SEND C1, C2 ENCRYPTED TO OTHER GAMMAL
+
+        """
         
         self.client_socket.send(enc.encode())
         self.textbox.insert("100.100","\n" + self.entry.get() + "\n" + enc)

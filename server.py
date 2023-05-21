@@ -1,5 +1,6 @@
 import socket
 import threading
+from CGAMMAL import elgammal
 
 # Dictionary to store client public keys
 client_public_keys = {}
@@ -35,11 +36,12 @@ def handle_client(client_socket, client_address):
             if not message:
                 break  # Exit the loop if no more messages
             print("Received message from client:", message)
-
+            
             if message == "Get_Keys":
                 # Send the keys of all clients as a response back to the client
                 keys = "\n".join(client_public_keys.values())
                 client_socket.send(keys.encode())
+
             else:
                 # Send a default response back to the client
                 for i in client_sessions:
@@ -54,8 +56,19 @@ def handle_client(client_socket, client_address):
                 del client_public_keys[client_port]
         
                 break
+         """
+          here  we try to generate common q, a to send to both sides of gammmal and wait for their public keys
+            """
+            # elif message == "Get_q_a":
+            #     keys = q + "," + a + "," + k
+            #     client_socket.send(keys.encode())
+
+            
+
+
 
     # Close the client connection
+
     client_socket.close()
     print("Client connection closed:", client_address)
 
@@ -71,6 +84,16 @@ server_socket.bind(server_address)
 server_socket.listen(5)
 print("Server listening on {}:{}".format(*server_address))
 
+
+
+def get_gammal_q_a():
+    gammal = elgammal(0,0)
+    gammal.q_a_Generation()
+    gammal.kSmallGeneration(10)
+    return gammal.q, gammal.a, gammal.kS
+
+q, a, k = get_gammal_q_a()
+
 while True:
     # Accept a client connection
     client_socket, client_address = server_socket.accept()
@@ -78,3 +101,5 @@ while True:
     # Create a new thread to handle the client
     client_thread = threading.Thread(target=handle_client, args=(client_socket, client_address))
     client_thread.start()
+
+
