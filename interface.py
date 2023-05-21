@@ -1,16 +1,21 @@
 from socket import *
 from _thread import *
 import customtkinter
+import socket
 
 
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
-customtkinter.set_default_color_theme("green")  # Themes: "blue" (standard), "green", "dark-blue"
+customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+# Connect to the server
+        self.server_address = ('localhost', 5555)
+        self.client_socket.connect(self.server_address)
         # configure window
         self.title("Message Me")
         self.geometry(f"{1100}x{580}")
@@ -59,7 +64,7 @@ class App(customtkinter.CTk):
       
         self.appearance_mode_optionemenu.set("Dark")
         self.scaling_optionemenu.set("100%")
-        self.textbox.insert("0.0", "hello there I am chimp\nand I come on a wimp\nplease do not skimp\n cause I got a nasty limp\n that has a visible blimp\nthat looks like a creepy shrimp")
+        # self.textbox.insert("0.0", "Hello world")
 
 
 
@@ -71,6 +76,8 @@ class App(customtkinter.CTk):
         customtkinter.set_widget_scaling(new_scaling_float)
 
     def send_button_event(self):
+        message =self.entry.get()
+        self.client_socket.send(message.encode())
         self.textbox.insert("100.100","\n" + self.entry.get())
         print("sidebar_button click")
     
