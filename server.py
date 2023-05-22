@@ -85,6 +85,9 @@ server_socket.listen(5)
 print("Server listening on {}:{}".format(*server_address))
 
 
+"""
+    generation of supposed common q,a,k
+"""
 
 def get_gammal_q_a():
     gammal = elgammal(0,0)
