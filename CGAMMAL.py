@@ -219,29 +219,29 @@ class elgammal():
         return C1, C2
     
 
-def main(): 
-    # a = 10
-    # q = 19
-    k=10
-    M = 'Hello there! my friend I ahve missed you '
+# def main(): 
+#     # a = 10
+#     # q = 19
+#     k=10
+#     M = 'Hello there! my friend I ahve missed you '
 
-    firstGammal = elgammal(0,0)
-    firstGammal.q_a_Generation()
-    secondGammal = elgammal(firstGammal.q, firstGammal.a)
-    secondGammal.kSmallGeneration(k)
-    firstGammal.set_kSmall(secondGammal.kS)
-    # SenderP = elgammal(a, k,q)
-    # SenderP.set_key(RecieverP.publicK)
-    C1, C2 = secondGammal.Encrypt(firstGammal.publicKey,M)
+#     firstGammal = elgammal(0,0)
+#     firstGammal.q_a_Generation()
+#     secondGammal = elgammal(firstGammal.q, firstGammal.a)
+#     secondGammal.kSmallGeneration(k)
+#     firstGammal.set_kSmall(secondGammal.kS)
+#     # SenderP = elgammal(a, k,q)
+#     # SenderP.set_key(RecieverP.publicK)
+#     C1, C2 = secondGammal.Encrypt(firstGammal.publicKey,M)
     
-    print('c1: ', C1)
-    print('c2: ',C2)
+#     print('c1: ', C1)
+#     print('c2: ',C2)
    
 
-    DM = firstGammal.Decrypt(C1, C2)
-    for i in range(0, len(DM)):
-        DM[i] = chr(DM[i])
-    print('Decrypted Message:', DM)
+#     DM = firstGammal.Decrypt(C1, C2)
+#     for i in range(0, len(DM)):
+#         DM[i] = chr(DM[i])
+#     print('Decrypted Message:', DM)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
