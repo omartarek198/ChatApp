@@ -72,7 +72,7 @@ class App(customtkinter.CTk):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # self.elgammal = elgammal(0,0)
 
-        # self.RSA = RSA()
+        self.RSA = RSA()
         
         
 
@@ -129,10 +129,9 @@ class App(customtkinter.CTk):
         SEND C1, C2 ENCRYPTED TO OTHER GAMMAL
 
         """
-        
         self.client_socket.send(enc.encode())
         self.textbox.insert("100.100","\n" + self.entry.get() + "\n" + enc)
-        print("sidebar_button click")
+        print("send_button click")
     def get_devices_event(self):
         self.client_socket.send("Get_Keys".encode())
         response = self.client_socket.recv(1024).decode()
