@@ -202,7 +202,12 @@ class elgammal():
         for i in range(0, len(C2)):
             decryptedM.append(int(C2[i] / KC))
             
-        return decryptedM
+        for i in range(0, len(decryptedM)):
+            decryptedM[i] = chr(decryptedM[i])
+
+        finaltext = "".join(decryptedM)
+
+        return finaltext
     
     def Encrypt(self, recPublicKey, M):
         
@@ -219,9 +224,8 @@ class elgammal():
         return C1, C2
     
 
-# def main(): 
-#     # a = 10
-#     # q = 19
+# def main():
+
 #     k=10
 #     M = 'Hello there! my friend I ahve missed you '
 
@@ -230,18 +234,16 @@ class elgammal():
 #     secondGammal = elgammal(firstGammal.q, firstGammal.a)
 #     secondGammal.kSmallGeneration(k)
 #     firstGammal.set_kSmall(secondGammal.kS)
-#     # SenderP = elgammal(a, k,q)
-#     # SenderP.set_key(RecieverP.publicK)
 #     C1, C2 = secondGammal.Encrypt(firstGammal.publicKey,M)
     
 #     print('c1: ', C1)
 #     print('c2: ',C2)
    
 
-#     DM = firstGammal.Decrypt(C1, C2)
-#     for i in range(0, len(DM)):
-#         DM[i] = chr(DM[i])
-#     print('Decrypted Message:', DM)
+#     dm = firstGammal.Decrypt(C1, C2)
+#     print("dm: ", dm)
+
+
 
 # if __name__ == "__main__":
 #     main()

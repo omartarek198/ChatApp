@@ -304,32 +304,14 @@ class DES():
 # def main():
 # 	message = input("Enter test: ")
 # 	key = "1010101010111011000010010001100000100111001101101100110011011101"
+
 # 	desss = DES()
 # 	desss.key_generation(key)
-	
-#     # # 64-->56
-# 	# key1 = desss.permute(key, desss.keyp, 56)
-# 	# # Splitting keys
-# 	# left = key1[0:28] # rkb for RoundKeys in binary
-# 	# right = key1[28:56] # rk for RoundKeys in hexadecimal
-# 	# rkb = []
-# 	# for i in range(0, 16):
-# 	# 	# Shifting 
-# 	# 	left = desss.shift_left(left, desss.shift_table[i])
-# 	# 	right = desss.shift_left(right, desss.shift_table[i])
-# 	# 	# Combination of left and right string
-# 	# 	combine_str = left + right
-# 	# 	# by-compress elkey 56-->48
-# 	# 	round_key = desss.permute(combine_str, desss.key_comp, 48)
-# 	# 	rkb.append(round_key)
-# 	# desss.keys = rkb
-
-
-
 
 # 	cipher, length = desss.encryption(message)
 # 	print("cipher: ", cipher)
 # 	print("length: ", length)
+
 # 	plain = desss.decryption(cipher, length)
 # 	print("plain: ", plain)
 	

@@ -319,10 +319,13 @@ class AES():
 #     aess = AES()
 #     txt = "hello there my friend I have come from a far way"
 #     key = "1010011100111011"
+
 #     cipher = aess.encrypt(txt, key)
 #     print(cipher)
+
 #     plain = aess.decrypt(cipher, key)
 #     print(plain)
+
 #     return 1
 
 
